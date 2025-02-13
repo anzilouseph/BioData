@@ -17,9 +17,9 @@ CREATE TABLE BioData (
 show tables;
 
 delimiter //
-create procedure addUser(in p_name  varchar(50),in p_age  int,in p_address  text,in p_email  varchar(100),in p_password  varchar(255))
+create procedure addUser(in p_name  varchar(50),in p_age  int,in p_address  text,in p_email  varchar(100),in p_password  varchar(255),in p_salt  varchar(255))
 begin
-insert into Biodata(FullName,Age,Address,Email,Password,Salt) values (p_name, p_age, p_address, p_email, p_password);
+insert into Biodata(FullName,Age,Address,Email,Password,Salt) values (p_name, p_age, p_address, p_email, p_password, p_salt);
 end //
 delimiter ;
 
