@@ -2,7 +2,9 @@
 using BioDataJWT.Dto;
 using BioDataJWT.IRepo;
 using BioDataJWT.IService;
+using BioDataJWT.Model;
 using BioDataJWT.Utilitys;
+using Dapper;
 using Microsoft.Identity.Client;
 
 namespace BioDataJWT.Service
@@ -51,6 +53,51 @@ namespace BioDataJWT.Service
 
             return APIResponse<UserToListDto>.Success(masked, "Success"); 
 
+        }
+
+        //update the profile of the user by himself
+        public async Task<APIResponse<bool>> UpdateOwnData(UserForUpdationDto user, Guid id)
+        {
+            var queryBuilder = new List<string>();
+            var parameters = new DynamicParameters();
+
+            var binded = new BioData
+            {
+                FullName = user.nameOfUser,
+                Age = user.ageOfUser,
+                Address = user.addressOfUser,
+                Email = user.emailOfUser
+            };
+
+            foreach (var prop in typeof(BioData).GetProperties())
+            {
+                if(prop.Name!="ID")
+                {
+                    var value = prop.GetValue(binded);
+                    if(value != null)
+                    {
+                        if(!string.IsNullOrEmpty(value.ToString()) && value.ToString()!="0")
+                        {
+                            queryBuilder.Add($"{prop.Name}=@{prop.Name}");
+                            parameters.Add($"{prop.Name}", value);
+                        }
+                    }
+                }
+            }
+
+            if(queryBuilder.Count==0)
+            {
+                return APIResponse<bool>.Error("No fields to Update");
+            }
+
+            parameters.Add("id", id);
+
+            var rowAffected = await _repo.UpdateOwnData(queryBuilder, parameters);
+            if(rowAffected==0)
+            {
+                return APIResponse<bool>.Error("Unable to update");
+            }
+            return APIResponse<bool>.Success(true , "Success");
         }
 
     }

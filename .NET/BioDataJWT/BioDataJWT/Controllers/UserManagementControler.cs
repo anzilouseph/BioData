@@ -2,6 +2,7 @@
 using BioDataJWT.Dto;
 using BioDataJWT.IService;
 using BioDataJWT.Utilitys;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -55,5 +56,29 @@ namespace BioDataJWT.Controllers
                 return StatusCode(500, new { message = ex.Message });
             }
         }
+
+
+        //for update their own data
+        [Authorize]
+        [HttpPut("UpdateOwnProfile")]
+        public async Task<IActionResult> UpdateOwnData(UserForUpdationDto user)
+        {
+            try
+            {
+                var userIdClaim = HttpContext.User.FindFirst(JwtRegisteredClaimNames.Sid);
+                if (userIdClaim == null || !Guid.TryParse(userIdClaim.Value, out Guid user_id))
+                {
+                    return Unauthorized(APIResponse<bool>.Error("Unable to generate token"));
+                }
+                var apiResponse = await _service.UpdateOwnData(user, user_id);
+                return Ok(apiResponse);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = ex.Message });
+            }
+        }
+
+
     }
 }

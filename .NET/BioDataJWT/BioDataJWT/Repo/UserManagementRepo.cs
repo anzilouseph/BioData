@@ -55,5 +55,21 @@ namespace BioDataJWT.Repo
             }
         }
 
+
+        //for update the profile of the the user by himself
+        public async Task<int> UpdateOwnData(List<string> queryBuilder, DynamicParameters parameters)
+        {
+            var query = $"update BioData set {string.Join(",", queryBuilder)} where ID=@id";
+            using(var connection = _context.CreateConnection())
+            {
+                connection.Open();
+                var rowAffected = await connection.ExecuteAsync(query, parameters);
+                connection.Close();
+                return rowAffected;
+            }
+        }
+
+
+
     }
 }

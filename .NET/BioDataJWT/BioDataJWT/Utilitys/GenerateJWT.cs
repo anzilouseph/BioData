@@ -14,7 +14,7 @@ namespace BioDataJWT.Utilitys
         {
             _configuration = configuration;
         }
-
+ 
         public string GenerateToken(UserToListDto user)
         {
             // Retrieve the issuer audience and key which we mwntioned in the app settings using the IConfiguration(where IConfiguratuon is a predefined interface which we used to take strings from appsettings)
