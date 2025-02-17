@@ -1,0 +1,107 @@
+
+<div class="container-fluid">
+    <div class="row d-flex justify-content-center bg-success"  style="padding-top: 3rem;">
+        <div class="col-12 col-md-10 col-lg-8 d-flex justify-content-center bg-danger">
+            <div class="card shadow-lg border-0 w-100" style="background-color:rgb(231, 221, 221);">
+                <div class="card-header bg-primary text-center text-white">
+                    <h2>USER DETAILS</h2>
+                </div>
+                <div class="card-body p-4 ">
+                    <form [formGroup]="getForm">
+                        <!-- for name -->
+                        <div class="mb-3 row">
+                            <div class="col-12 col-md-3">
+                                <label for="name">FULL NAME : </label>
+                            </div>
+                            <div class="col-12 col-md-9 w-90">
+                                <input type="text" class="form-control" id="name" formControlName="nameOfUser" [readonly]="!isEdit">
+                                <label class="text-danger" *ngIf="getForm.get('nameOfUser')?.errors?.['required'] && getForm.get('nameOfUser')?.touched">this field is required</label>
+                                <label class="text-danger" *ngIf="getForm.get('nameOfUser')?.errors?.['pattern'] && getForm.get('nameOfUser')?.touched">invalid name</label>
+
+                            </div>
+                                                       
+                        </div>
+                        <!-- name ends -->
+
+
+                        <!-- for age -->
+                        <div class="mb-3 row">
+                            <div class="col-12 col-md-3">
+                                <label for="age">AGE : </label>
+                            </div>
+                            <div class="col-12 col-md-9 w-90">
+                                <input type="number" class="form-control" id="age" formControlName="ageOfUser" [readonly]="!isEdit"> 
+                                <label class="text-danger" *ngIf="getForm.get('ageOfUser')?.errors?.['required'] && getForm.get('nameOfUser')?.touched">this field is required</label>
+                                <label class="text-danger" *ngIf="getForm.get('ageOfUser')?.errors?.['pattern'] && getForm.get('nameOfUser')?.touched">invalid age</label>
+                           
+                            </div>
+                            
+                            
+                        </div>
+                        <!--  age ends-->
+                        
+
+                        <!-- for address -->
+                        <div class="mb-3 row">
+                            <div class="col-12 col-md-3">
+                                <label for="address">ADDRESS : </label>
+                            </div>
+                            <div class="col-12 col-md-9 w-90">
+                                <textarea class="form-control" id="address" formControlName="addressOfUser" [readonly]="!isEdit"></textarea> 
+                            </div>
+                            
+                            
+                        </div>
+                        <!--  address ends-->
+
+                         <!-- for email -->
+                         <div class="mb-3 row">
+                            <div class="col-12 col-md-3">
+                                <label for="email">EMAIL : </label>
+                            </div>
+                            <div class="col-12 col-md-9 w-90">
+                                <input type="email" class="form-control" id="email" formControlName="emailOfUser" [readonly]="!isEdit">
+                                <label class="text-danger" *ngIf="getForm.get('emailOfUser')?.errors?.['required'] && getForm.get('emailOfUser')?.touched">this field is required</label>
+                                <label class="text-danger" *ngIf="getForm.get('emailOfUser')?.errors?.['pattern'] && getForm.get('emailOfUser')?.touched">invalid email</label>
+                            </div>
+                            
+                            
+                        </div>
+                        <!--  email ends-->
+
+
+                         <div class="row d-flex justify-content-evenly"> 
+
+                            <!-- isEdit false buttons  -->
+                            
+                            <div class="col-auto" *ngIf="!isEdit">
+                                <button type="button" class="btn btn-success btn-lg" (click)="edit()">EDIT</button>
+                            </div>
+                            <div class="col-auto" *ngIf="!isEdit">
+                                <button type="button" class="btn btn-secondary btn-lg" [routerLink]="['']">GO BACK</button>
+                            </div> 
+
+
+                             <!-- isEdit true buttons  -->
+                            
+                             <div class="col-auto" *ngIf="isEdit">
+                                <button type="button" class="btn btn-success btn-lg" (click)="submit()">SUBMIT</button>
+                            </div>
+                            <div class="col-auto" *ngIf="isEdit">
+                                <button type="button" class="btn btn-danger btn-lg" (click)="clear()">CLEAR</button>
+                            </div>
+                            <div class="col-auto" *ngIf="isEdit">
+                                <button type="button" class="btn btn-secondary btn-lg" (click)="goback()">GO BACK</button>
+                            </div>
+
+                           
+                        </div>
+
+
+
+                    </form>    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
